@@ -165,7 +165,7 @@ def search_users(ids, fields, bearer_token = BEARER_TOKEN):
 def search_users_by_name(usernames, fields, bearer_token = BEARER_TOKEN):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
 
-    url = "https://api.twitter.com/2/users/by/username/{}&user.fields={}&expansions=pinned_tweet_id".format(usernames, fields)
+    url = "https://api.twitter.com/2/users/by/username/{}?expansions=pinned_tweet_id&user.fields={}".format(usernames, fields)
     response = requests.request("GET", url, headers=headers)
 
     print(response.status_code)
@@ -195,7 +195,7 @@ def get_users(ids, search_func = search_users):
                    'url',
                    'username',
                    'verified',
-                   'withheld',]
+                   'withheld']
 
     fields = ''.join([word + ',' for word in user_fields])[:-1]
     
