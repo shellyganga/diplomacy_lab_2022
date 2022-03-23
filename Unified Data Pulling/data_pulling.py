@@ -162,10 +162,23 @@ def search_users(ids, fields, bearer_token = BEARER_TOKEN):
     return response.json()
 
 
+def search_users_by_name(usernames, fields, bearer_token = BEARER_TOKEN):
+    headers = {"Authorization": "Bearer {}".format(bearer_token)}
+
+    url = "https://api.twitter.com/2/users/by/username/{}&user.fields={}&expansions=pinned_tweet_id".format(usernames, fields)
+    response = requests.request("GET", url, headers=headers)
+
+    print(response.status_code)
+
+    if response.status_code != 200:
+        raise Exception(response.status_code, response.text)
+    return response.json()
+
+
 # In[91]:
 
 
-def get_users(ids):
+def get_users(ids, search_func = search_users):
     
     user_data = []
     
@@ -190,12 +203,12 @@ def get_users(ids):
     for i in range(int(len(ids) / 100)):
 
         output_string = ''.join([item + ',' for item in ids[100 * i: 100 * (i + 1)]])[:-1]
-        data = search_users(output_string, fields)
+        data = search_func(output_string, fields)
         user_data += data['data']
     
     
     output_string = ''.join([item + ',' for item in ids[100 * (i+1):]])[:-1]
-    data = search_users(output_string, fields)
+    data = search_func(output_string, fields)
     user_data += data['data']
     
     return user_data
