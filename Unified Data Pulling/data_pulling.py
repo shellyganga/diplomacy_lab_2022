@@ -30,15 +30,20 @@ BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAE%2FxYwEAAAAAD4yHOet7t9Teo7FvtNEHZgcrKd4%3D
 
 def full_query(words, start, end):
     
+    # NOTE: both read_json calls get rid of twitters json format, code needs to be moved to this function if you dont want to call it
+
     query = words.replace(' ', '%20')
     tweets = get_tweets(query, start, end, debug = False)
     
     save_json(tweets, 'tweets.json')
-    
+
+    tweets = read_json('tweets.json', True)
+
     user_ids = [tweet['author_id'] for tweet in tweets]
     users = get_users(user_ids)
     
     save_json(users, 'users.json')
+    users = read_json('users.json')
     
     tweets = attach_users_to_tweets(tweets, users)
     tweets.sort(key = date_score)
@@ -146,13 +151,18 @@ def read_jsons(file_path):
 # In[120]:
 
 
-def read_json(file_path):
+def read_json(file_path, prune_data = False):
     f = open(file_path)
     data = json.load(f)
+
+    data = json.loads(data)
+    
+    if not prune_data: return data
     
     responses = []
-    
+
     for item in data:
+
         responses+= item['data']
         
     return responses
