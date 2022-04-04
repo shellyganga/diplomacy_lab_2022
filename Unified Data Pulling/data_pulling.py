@@ -27,6 +27,27 @@ import numpy as np
 #its bad practice to place your bearer token directly into the script (this is just done for illustration purposes)
 BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAE%2FxYwEAAAAAD4yHOet7t9Teo7FvtNEHZgcrKd4%3DgZfLjnLxwc7QEfCOiPkdPEjjbPtOyBSWWQ4ccgm2o831mXxAfI"
 
+
+def full_query(words, start, end):
+    
+    query = words.replace(' ', '%20')
+    tweets = get_tweets(query, start, end, debug = False)
+    
+    save_json(tweets, 'tweets.json')
+    
+    user_ids = [tweet['author_id'] for tweet in tweets]
+    users = get_users(user_ids)
+    
+    save_json(users, 'users.json')
+    
+    tweets = attach_users_to_tweets(tweets, users)
+    tweets.sort(key = date_score)
+    
+    hist_data = [datetime.strptime(tweet['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ') for tweet in tweets]
+    
+    return hist_data
+
+
 #define search twitter function
 def search_twitter(query, tweet_fields, bearer_token = BEARER_TOKEN):
     headers = {"Authorization": "Bearer {}".format(bearer_token), "tweet_mode":"extended"}
@@ -99,7 +120,7 @@ def get_tweets(key_words, start, end, debug=True, do_sleep=False):
 # In[87]:
 
 
-def save_json(responses, file_path):
+def save_json(file_path):
     with open(file_path) as outfile: json.dump(responses, outfile)
 
 
