@@ -99,7 +99,7 @@ def get_tweets(key_words, start, end, debug=True, do_sleep=False):
 # In[87]:
 
 
-def save_json(file_path):
+def save_json(responses, file_path):
     with open(file_path) as outfile: json.dump(responses, outfile)
 
 
