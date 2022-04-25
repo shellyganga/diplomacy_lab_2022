@@ -9,7 +9,8 @@ from sklearn.tree import DecisionTreeClassifier
 
 # When want to predict specific tweete, start by calling this method.
 # json_file is the file path to the json file.
-def run_tree(json_file):
+# clf is the decision tree classifier
+def run_tree(json_file, clf):
     # Extracts information from json file.
     # SUBNOTE: While the code will most likely not go here, it's important to make sure to delete those json files at some point to reduce the amount of 
     # space that the application takes up.
@@ -147,6 +148,9 @@ def main():
 
     clf = DecisionTreeClassifier(random_state = 0)
     clf.fit(X_train, y_train)
+    # return clf
+    # Will most likely be renaming this method to something else. If so, make sure to return clf (the classifier), so that you can call it later 
+    # to predict tweets.
 
 if __name__ == '__main__':
     main()
