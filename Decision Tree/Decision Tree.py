@@ -128,10 +128,12 @@ def print_info(clf, testing_X):
     print("\n")
 
     # Prints out final prediction.
+    # A prediction of 0 means "false", or in this case, that the user's information suggests that they will post misinformation.
+    # A prediction of 1 means "true", or that the user is more likely to tweet trustworhty information.
     if clf.predict(testing_X) == 0:
-        print("Prediction: User trustworthy")
-    else:
         print("Prediction: User untrustworthy")
+    else:
+        print("Prediction: User trustworthy")
 
 # Change the name of this function as needed. It initializes the decision tree.
 def main():
