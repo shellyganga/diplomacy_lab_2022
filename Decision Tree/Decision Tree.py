@@ -11,6 +11,8 @@ from sklearn.tree import DecisionTreeClassifier
 # json_file is the file path to the json file.
 def run_tree(json_file):
     # Extracts information from json file.
+    # SUBNOTE: While the code will most likely not go here, it's important to make sure to delete those json files at some point to reduce the amount of 
+    # space that the application takes up.
     testing_X = get_test_tweet(json_file)
     # Prints out the information.
     print_info(clf, testing_X)
@@ -138,7 +140,7 @@ def print_info(clf, testing_X):
 # Change the name of this function as needed. It initializes the decision tree.
 def main():
     # First run through of decision tree.
-    full_df = pd.read_csv("all_data.csv") #Make sure path to all_data.csv is correct.
+    full_df = pd.read_csv("all_data.csv") # Make sure path to all_data.csv is correct.
     X = full_df.iloc[:, [3, 5, 6, 7, 8]]
     y = full_df.loc[:, 'Misinformation']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state=0)
