@@ -48,6 +48,8 @@ def full_query(words, start, end):
     tweets = attach_users_to_tweets(tweets, users)
     tweets.sort(key = date_score)
     
+    save_json(tweets, 'combined.json')
+    
     hist_data = [datetime.strptime(tweet['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ') for tweet in tweets]
     
     return hist_data
