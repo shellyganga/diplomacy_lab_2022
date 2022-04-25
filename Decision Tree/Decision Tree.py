@@ -24,7 +24,7 @@ def get_test_tweet(json_file):
     verified = []
     followers_count = []
     following_count = []
-    tweet_count = []
+    tweet_count = [] 
     listed_count = []
 
     #Gets the right information, and puts it into a series of lists, which will then be converted into a dataframe.
